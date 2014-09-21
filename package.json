@@ -2,7 +2,6 @@
   "name": "flux-dispatcher",
   "version": "0.0.0",
   "description": "",
-  "author": "Tim Joseph",
   "main": "Gruntfile.js",
   "directories": {
     "test": "test"
@@ -10,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Tim Joseph",
   "license": "ISC",
   "devDependencies": {
     "browserify": "^5.11.0",
