@@ -1,31 +1,38 @@
 {
   "name": "flux-dispatcher",
   "version": "0.0.0",
-  "description": "",
-  "main": "Gruntfile.js",
+  "description": "A flux dispatcher",
+  "main": "src/Dispatcher.js",
   "directories": {
     "test": "test"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Tim Joseph",
-  "license": "ISC",
-  "devDependencies": {
-    "browserify": "^5.11.0",
-    "chai": "~1.9.1",
-    "grunt": "^0.4.5",
-    "grunt-browserify": "^3.0.1",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-este-watch": "^0.1.18",
-    "grunt-mocha-cli": "^1.10.0",
-    "grunt-sass": "^0.14.1",
-    "mocha": "~1.20.0",
-    "node-bourbon": "^1.2.3",
-    "rootpath": "~0.1.2",
-    "sinon": "~1.10.2"
-  },
   "dependencies": {
-    "lodash": "~2.4.1"
-  }
+    "lodash": "^2.4.1"
+  },
+  "devDependencies": {
+    "mocha": "^1.20.1",
+    "grunt-este-watch": "^0.1.18",
+    "rootpath": "^0.1.2",
+    "grunt-contrib-jshint": "^0.10.0",
+    "chai": "^1.9.1",
+    "grunt": "^0.4.5",
+    "grunt-mocha-cli": "^1.10.0",
+    "sinon": "^1.10.3"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mctigger/flux-dispatcher.git"
+  },
+  "keywords": [
+    "Flux"
+  ],
+  "author": "Tim Joseph",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mctigger/flux-dispatcher/issues"
+  },
+  "homepage": "https://github.com/Mctigger/flux-dispatcher"
 }
