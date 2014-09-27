@@ -21,20 +21,6 @@ module.exports = function(grunt) {
       }
     },
 
-    browserify: {
-      dev: {
-        src: ['src/js/app.jsx'],
-        dest: 'public/js/app.js',
-        options: {
-          browserifyOptions: {
-            debug: true
-          },
-          external: ['react'],
-          transform: ['reactify']
-        }   
-      },
-    },
-
     mochacli: {
       options: {
         require: [],
@@ -47,15 +33,13 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js']
+      all: ['Gruntfile.js', 'src/**/*.js']
     }
   });
 
-grunt.loadNpmTasks('grunt-browserify');
 grunt.loadNpmTasks('grunt-mocha-cli');
 grunt.loadNpmTasks('grunt-este-watch');
 grunt.loadNpmTasks('grunt-contrib-jshint');
-grunt.loadNpmTasks('grunt-sass');
 
 
 grunt.registerTask('default', ['esteWatch']);
