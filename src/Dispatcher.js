@@ -2,24 +2,34 @@ var _ = require('lodash');
 var Cycle = require('./Cycle');
 
 
-function Dispatcher() {}
+function Dispatcher() {
+	this.actions = {};
+	this.idCounter = 0;
+}
 
 _.extend(Dispatcher.prototype, {
-	actions: {},
-
-	register: function(storeName, actionName, dependencies, cb) {
+	register: function(actionName, dependencies, fn) {
 		if(!_.has(this.actions, actionName)) {
-			this.actions[actionName] = {};
-		}
+			this.actions[actionName] = [];
+ 		}
 
-		this.actions[actionName][storeName] = {
+ 		var id = this._generateId();
+
+		this.actions[actionName].push({
+			id: id,
       dependencies: dependencies,
-      cb: cb
-    };
+      fn: fn
+    });
+
+    return id;
 	},
 
-	dispatch: function(actionName, payload) {
-		new Cycle(this.actions[actionName], payload);
+	_generateId: function() {
+		return this.idCounter++;
+	},
+
+	dispatch: function(actionName, payload, onComplete) {
+		new Cycle(this.actions[actionName], payload, onComplete);
 	}
 });
 
