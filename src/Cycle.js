@@ -1,5 +1,13 @@
 var _ = require('lodash');
 
+/**
+ * Controlls the successful diaptching of a single action
+ *
+ * @constructor
+ * @param {Array.<Object>} actions Store listeners, their dependencies and ids
+ * @param {*} payload The payload to be delivered to the stores
+ * @param {function} onComplete Callback after the payload has been delivered
+ */
 function Cycle(actions, payload, onComplete) {
 	// Actions to be resolved
 	this.actions = _.clone(actions);
@@ -14,6 +22,11 @@ function Cycle(actions, payload, onComplete) {
 }
 
 _.extend(Cycle.prototype, {
+
+	/**
+	 * Iterates over all actions and invokes every action whose dependencies 
+	 * already resolved.
+	 */
 	_resolve: function() {
 		this._resolvedInCurrentRun = false;
 
@@ -53,22 +66,33 @@ _.extend(Cycle.prototype, {
 		}
   },
 
+  /**
+   * Generates a callback functions for actions. Invoking the generated function
+   * will mark the action as resolved. If _resolve is currently running, a mark
+   * is set. Else if _resolve is not running, it is invoked.
+   * 
+   * @param  {string} key The actions identifier
+   * @return {function} Callback function for actions, signaling that the actions has completed
+   */
   _generateNext: function(key) {
   	return function() {
   		this._resolved.push(key);   
-  		this._startResolving();
+
+  		if(!this._isResolving) {
+  			this._resolve();
+  		}
+  		else {
+  			this._resolvedInCurrentRun = true;
+  		}
   	}.bind(this);
   },
 
-  _startResolving: function() {
-  	if(!this._isResolving) {
-  		this._resolve();
-  	}
-  	else {
-  		this._resolvedInCurrentRun = true;
-  	}
-  },  
-
+  /**
+   * Checks whether all actions in the given array already resolved
+   * 
+   * @param  {Array.<Object>} dependencies Array of actions
+   * @return {boolean} 
+   */
   _didDependenciesResolve: function(dependencies) {
   	var didResolve = true;
 
