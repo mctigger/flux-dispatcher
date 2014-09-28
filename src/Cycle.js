@@ -1,22 +1,22 @@
 var _ = require('lodash');
 
 /**
- * Controlls the successful diaptching of a single action
+ * Controlls the successful disptching of a payload
  *
  * @constructor
- * @param {Array.<Object>} actions Store listeners, their dependencies and ids
- * @param {*} payload The payload to be delivered to the stores
+ * @param {Array.<Object>} listeners Store listeners, their dependencies and ids
+ * @param {*} payload The payload to be delivered to the listeners
  * @param {function} onComplete Callback after the payload has been delivered
  */
-function Cycle(actions, payload, onComplete) {
-	// Actions to be resolved
-	this.actions = _.clone(actions);
+function Cycle(listeners, payload, onComplete) {
+	// Listeners to be invoked
+	this.listeners = _.clone(listeners);
 
 	this.payload = payload;
 	this.onComplete = onComplete;
 
 	this._resolved = [];
-	this._actionCount = actions.length;
+	this._totalListenerCount = listeners.length;
 
 	this._resolve();
 }
@@ -24,7 +24,7 @@ function Cycle(actions, payload, onComplete) {
 _.extend(Cycle.prototype, {
 
 	/**
-	 * Iterates over all actions and invokes every action whose dependencies 
+	 * Iterates over all listeners and invokes every listener whose dependencies 
 	 * already resolved.
 	 */
 	_resolve: function() {
@@ -33,22 +33,22 @@ _.extend(Cycle.prototype, {
     // Mark as running.
     this._isResolving = true;
 
-    // Invoked actions
+    // Invoked listeners
     var invoked = [];
 
-    // Invoke all actions which dependencies already resolved
-    _.forEach(this.actions, function(action, index) {
-  		if(this._didDependenciesResolve(action.dependencies)) {
+    // Invoke all listeners which dependencies already resolved
+    _.forEach(this.listeners, function(listener, index) {
+  		if(this._didDependenciesResolve(listener.dependencies)) {
 
-  			var next = this._generateNext(action.id);
-  			action.fn(this.payload, next);
+  			var next = this._generateNext(listener.id);
+  			listener.fn(this.payload, next);
 
-  			invoked.push(action);
+  			invoked.push(listener);
   		}
     }.bind(this));
 
-		// Remove invoked actions from actions
-		this.actions = _.difference(this.actions, invoked);
+		// Remove invoked listeners from this.listeners
+		this.listeners = _.difference(this.listeners, invoked);
 
     // Remove mark.
     this._isResolving = false;
@@ -58,8 +58,8 @@ _.extend(Cycle.prototype, {
     	this._resolve();
     }
 
-    // If all actions are resolved, invoke callback
-    if(this._resolved.length === this._actionCount) {
+    // If all listeners are resolved, invoke callback
+    if(this._resolved.length === this._totalListenerCount) {
     	if(this.onComplete) {
 	    	this.onComplete();	
 	    }
@@ -67,12 +67,12 @@ _.extend(Cycle.prototype, {
   },
 
   /**
-   * Generates a callback functions for actions. Invoking the generated function
-   * will mark the action as resolved. If _resolve is currently running, a mark
+   * Generates a callback functions for listeners. Invoking the generated function
+   * will mark the listener as resolved. If _resolve is currently running, a mark
    * is set. Else if _resolve is not running, it is invoked.
    * 
-   * @param  {string} key The actions identifier
-   * @return {function} Callback function for actions, signaling that the actions has completed
+   * @param  {string} key The listener's identifier
+   * @return {function} Callback function for listeners, signaling that the listener has completed
    */
   _generateNext: function(key) {
   	return function() {
@@ -88,9 +88,9 @@ _.extend(Cycle.prototype, {
   },
 
   /**
-   * Checks whether all actions in the given array already resolved
+   * Checks whether all listeners in the given array already resolved
    * 
-   * @param  {Array.<Object>} dependencies Array of actions
+   * @param  {Array.<Object>} dependencies Array of listeners
    * @return {boolean} 
    */
   _didDependenciesResolve: function(dependencies) {

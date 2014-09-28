@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var Listener = require('./Listener');
 var Cycle = require('./Cycle');
 
 /**
@@ -28,11 +29,7 @@ _.extend(Dispatcher.prototype, {
 
  		var id = this._generateId();
 
-		this.actions[actionName].push({
-			id: id,
-      dependencies: dependencies,
-      fn: fn
-    });
+		this.actions[actionName].push(new Listener(id, dependencies, fn));
 
     return id;
 	},
