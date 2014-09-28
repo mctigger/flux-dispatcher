@@ -126,11 +126,11 @@ d.dispatch(THREAD_SELECTED_ACTION, {id: 2});
 Result
 
 ```
-	-> A
-	-> B
+	-> A Update UI with cached data here
+	-> B Update UI with cached data here
 	-> C
 	After server responded
-	->C
-	->D
+	->C Update UI with the real data
+	->D Update UI with the real data
 
 ```
