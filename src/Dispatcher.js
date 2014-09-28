@@ -15,8 +15,9 @@ _.extend(Dispatcher.prototype, {
 
 	/**
 	 * Registers listeners to actions with their dependencies
+	 * 
 	 * @param  {string} actionName
-	 * @param  {Array.<tnteger>} dependencies
+	 * @param  {Array.<integer>} dependencies
 	 * @param  {Function} fn The listener function
 	 * @return {integer} Token to be used as dependency for other listeners
 	 */
@@ -44,6 +45,7 @@ _.extend(Dispatcher.prototype, {
 	_generateId: function() {
 		return this.idCounter++;
 	},
+
 	/**
 	 * Dispatches a given action with the given payload
 	 * 
