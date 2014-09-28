@@ -1,5 +1,5 @@
 {
-  "name": "flux-dispatcher",
+  "name": "mctigger-flux-dispatcher",
   "version": "0.1.1",
   "description": "A flux dispatcher",
   "main": "src/Dispatcher.js",
