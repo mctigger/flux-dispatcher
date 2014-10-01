@@ -33,15 +33,18 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      all: ['Gruntfile.js', 'src/**/*.js']
+      all: ['Gruntfile.js', 'src/**/*.js'],
+      options: {
+        jshintrc: true
+      }
     }
   });
 
-grunt.loadNpmTasks('grunt-mocha-cli');
-grunt.loadNpmTasks('grunt-este-watch');
-grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-mocha-cli');
+  grunt.loadNpmTasks('grunt-este-watch');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
 
-grunt.registerTask('default', ['esteWatch']);
+  grunt.registerTask('default', ['esteWatch']);
 
 };
