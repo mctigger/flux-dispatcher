@@ -7,30 +7,24 @@ var sinon = require('sinon');
 var Cycle = require('src/Cycle');
 
 describe('Cycle.didDependenciesResolve', function() {
-  it('with no dependencies', function() {
-    var actions = {};
+  var actions = [];
 
+  it('with no dependencies', function() {
     var cycle = new Cycle(actions, {});
     expect(cycle._didDependenciesResolve([])).to.be.equal(true);
   });
 
   it('with one dependency [false]', function() {
-    var actions = {};
-
     var cycle = new Cycle(actions, {});
     expect(cycle._didDependenciesResolve(['store1'])).to.be.equal(false);
   });
 
   it('with multiple dependencies [false]', function() {
-    var actions = {};
-
     var cycle = new Cycle(actions, {});
     expect(cycle._didDependenciesResolve(['store1', 'store2'])).to.be.equal(false);
   });
 
   it('with one dependency [true]', function() {
-    var actions = {};
-
     var cycle = new Cycle(actions, {});
     cycle._resolved.push('store1');
 
@@ -38,8 +32,6 @@ describe('Cycle.didDependenciesResolve', function() {
   });
 
   it('with multiple dependencies [true]', function() {
-    var actions = {};
-
     var cycle = new Cycle(actions, {});
     cycle._resolved.push('store1');
     cycle._resolved.push('store2');
