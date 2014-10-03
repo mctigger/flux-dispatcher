@@ -1,4 +1,4 @@
-var _ = require('lodash');
+"use strict";
 
 /**
  * Controlls the successful disptching of a payload
@@ -9,19 +9,20 @@ var _ = require('lodash');
  * @param {function} onComplete Callback after the payload has been delivered
  */
 function Cycle(listeners, payload, onComplete) {
-	// Listeners to be invoked
-	this.listeners = _.clone(listeners);
+	// Copy references to listeners
+	this._listenersToBeInvoked = listeners.slice();
 
-	this.payload = payload;
-	this.onComplete = onComplete;
+	this._payload = payload;
+	this._onComplete = onComplete;
 
+	// Listeners their dependencies already resolved
 	this._resolved = [];
 	this._totalListenerCount = listeners.length;
 
 	this._resolve();
 }
 
-_.extend(Cycle.prototype, {
+Cycle.prototype = {
 
 	/**
 	 * Iterates over all listeners and invokes every listener whose dependencies 
@@ -33,22 +34,17 @@ _.extend(Cycle.prototype, {
     // Mark as running.
     this._isResolving = true;
 
-    // Invoked listeners
-    var invoked = [];
-
     // Invoke all listeners which dependencies already resolved
-    _.forEach(this.listeners, function(listener, index) {
+    for(var key in this._listenersToBeInvoked) {
+  		var listener = this._listenersToBeInvoked[key];
+
   		if(this._didDependenciesResolve(listener.dependencies)) {
-
   			var next = this._generateNext(listener.id);
-  			listener.fn(this.payload, next);
+  			listener.fn(this._payload, next);
 
-  			invoked.push(listener);
+  			delete this._listenersToBeInvoked[key];
   		}
-    }.bind(this));
-
-		// Remove invoked listeners from this.listeners
-		this.listeners = _.difference(this.listeners, invoked);
+    }
 
     // Remove mark.
     this._isResolving = false;
@@ -60,8 +56,8 @@ _.extend(Cycle.prototype, {
 
     // If all listeners are resolved, invoke callback
     if(this._resolved.length === this._totalListenerCount) {
-    	if(this.onComplete) {
-	    	this.onComplete();	
+    	if(this._onComplete) {
+	    	this._onComplete();	
 	    }
 		}
   },
@@ -96,8 +92,9 @@ _.extend(Cycle.prototype, {
   _didDependenciesResolve: function(dependencies) {
   	var didResolve = true;
 
-  	_.forEach(dependencies, function(dependency) {
-  		if(!_.contains(this._resolved, dependency)) {
+  	dependencies.forEach(function(dependency) {
+  		// Checks whether this._resolved contains a dependency
+  		if(this._resolved.indexOf(dependency) === -1) {
   			didResolve = false;
         // Break Loop
         return false;
@@ -106,6 +103,6 @@ _.extend(Cycle.prototype, {
 
   	return didResolve;
   }
-});
+};
 
 module.exports = Cycle;

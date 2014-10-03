@@ -1,4 +1,5 @@
-var _ = require('lodash');
+"use strict";
+
 var Listener = require('./Listener');
 var Cycle = require('./Cycle');
 
@@ -8,11 +9,11 @@ var Cycle = require('./Cycle');
  * @constructor
  */
 function Dispatcher() {
-	this.actions = {};
-	this.idCounter = 0;
+	this._actions = {};
+	this._idCounter = 0;
 }
 
-_.extend(Dispatcher.prototype, {
+Dispatcher.prototype = {
 
 	/**
 	 * Registers listeners to actions with their dependencies
@@ -23,13 +24,13 @@ _.extend(Dispatcher.prototype, {
 	 * @return {integer} Token to be used as dependency for other listeners
 	 */
 	register: function(actionName, dependencies, fn) {
-		if(!_.has(this.actions, actionName)) {
-			this.actions[actionName] = [];
+		if(!this._actions.hasOwnProperty(actionName)) {
+			this._actions[actionName] = [];
  		}
 
  		var id = this._generateId();
 
-		this.actions[actionName].push(new Listener(id, dependencies, fn));
+		this._actions[actionName].push(new Listener(id, dependencies, fn));
 
     return id;
 	},
@@ -40,7 +41,7 @@ _.extend(Dispatcher.prototype, {
 	 * @return {integer}
 	 */
 	_generateId: function() {
-		return this.idCounter++;
+		return this._idCounter++;
 	},
 
 	/**
@@ -51,8 +52,8 @@ _.extend(Dispatcher.prototype, {
 	 * @param  {function} onComplete
 	 */
 	dispatch: function(actionName, payload, onComplete) {
-		new Cycle(this.actions[actionName], payload, onComplete);
+		new Cycle(this._actions[actionName], payload, onComplete);
 	}
-});
+};
 
 module.exports = Dispatcher;
