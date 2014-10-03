@@ -18,8 +18,8 @@ describe('Dispatcher.register', function() {
 
 		var token4 = dispatcher.register('action2', [], store1Function);
 
-		expect(dispatcher.actions).to.deep.equal({
-			'action1': [ 
+		expect(dispatcher._actions).to.deep.equal({
+			'action1': [
 				{
 					'id': 0,
 					'dependencies': [],
@@ -41,7 +41,7 @@ describe('Dispatcher.register', function() {
 					'id': 3,
 					'dependencies': [],
 					'fn': store1Function
-				}	
+				}
 			]
 		});
 
