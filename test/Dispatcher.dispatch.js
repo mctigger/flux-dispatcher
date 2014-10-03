@@ -5,7 +5,7 @@ var sinon = require('sinon');
 
 var Dispatcher = require('src/Dispatcher');
 
-describe('Dispatcher.register', function() {
+describe('Dispatcher.dispatch', function() {
 	var next = function(payload, next) {
 		next();
 	};
