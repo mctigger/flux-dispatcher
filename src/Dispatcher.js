@@ -17,7 +17,7 @@ Dispatcher.prototype = {
 
 	/**
 	 * Registers listeners to actions with their dependencies
-	 * 
+	 *
 	 * @param  {string} actionName
 	 * @param  {Array.<integer>} dependencies
 	 * @param  {Function} fn The listener function
@@ -37,7 +37,7 @@ Dispatcher.prototype = {
 
 	/**
 	 * Generates unique ids for listeners
-	 * 
+	 *
 	 * @return {integer}
 	 */
 	_generateId: function() {
@@ -46,12 +46,17 @@ Dispatcher.prototype = {
 
 	/**
 	 * Dispatches a given action with the given payload
-	 * 
+	 *
 	 * @param  {string} actionName
 	 * @param  {*} payload
 	 * @param  {function} onComplete
 	 */
 	dispatch: function(actionName, payload, onComplete) {
+		if(!this._actions[actionName]) {
+			onComplete();
+			return;
+		}
+
 		new Cycle(this._actions[actionName], payload, onComplete);
 	}
 };
