@@ -10,7 +10,7 @@ describe('Dispatcher.dispatch', function() {
 		next();
 	};
 
-	it('works', function() {
+	it('with dependencies', function() {
 		var spy1 = sinon.spy(next);
 		var spy2 = sinon.spy(next);
 		var spy3 = sinon.spy(next);
@@ -29,6 +29,15 @@ describe('Dispatcher.dispatch', function() {
 
 		expect(spy3.calledAfter(spy2)).to.be.true;
 		expect(spy3.calledAfter(spy1)).to.be.true;
+	});
+
+	it('with no registered actions', function(done) {
+		var onComplete = function() {
+			done();
+		};
+
+		var dispatcher = new Dispatcher();
+		dispatcher.dispatch('action', {}, onComplete);
 	});
 
 });
