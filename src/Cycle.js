@@ -25,7 +25,7 @@ function Cycle(listeners, payload, onComplete) {
 Cycle.prototype = {
 
 	/**
-	 * Iterates over all listeners and invokes every listener whose dependencies 
+	 * Iterates over all listeners and invokes every listener whose dependencies
 	 * already resolved.
 	 */
 	_resolve: function() {
@@ -57,7 +57,7 @@ Cycle.prototype = {
     // If all listeners are resolved, invoke callback
     if(this._resolved.length === this._totalListenerCount) {
     	if(this._onComplete) {
-	    	this._onComplete();	
+	    	this._onComplete();
 	    }
 		}
   },
@@ -66,13 +66,13 @@ Cycle.prototype = {
    * Generates a callback functions for listeners. Invoking the generated function
    * will mark the listener as resolved. If _resolve is currently running, a mark
    * is set. Else if _resolve is not running, it is invoked.
-   * 
+   *
    * @param  {string} key The listener's identifier
    * @return {function} Callback function for listeners, signaling that the listener has completed
    */
   _generateNext: function(key) {
   	return function() {
-  		this._resolved.push(key);   
+  		this._resolved.push(key);
 
   		if(!this._isResolving) {
   			this._resolve();
@@ -85,23 +85,15 @@ Cycle.prototype = {
 
   /**
    * Checks whether all listeners in the given array already resolved
-   * 
+   *
    * @param  {Array.<Object>} dependencies Array of listeners
-   * @return {boolean} 
+   * @return {boolean}
    */
   _didDependenciesResolve: function(dependencies) {
-  	var didResolve = true;
-
-  	dependencies.forEach(function(dependency) {
-  		// Checks whether this._resolved contains a dependency
-  		if(this._resolved.indexOf(dependency) === -1) {
-  			didResolve = false;
-        // Break Loop
-        return false;
-      }
+    // Checks whether every dependency is contained in this._resolved
+  	return dependencies.every(function(dependency) {
+  		return this._resolved.indexOf(dependency) !== -1;
     }.bind(this));
-
-  	return didResolve;
   }
 };
 
