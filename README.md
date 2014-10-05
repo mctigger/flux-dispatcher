@@ -7,6 +7,10 @@ This is a dispatcher for Facebook's (React) Flux architecture.
 
     npm install mctigger-flux-dispatcher
 
+##Dependencies
+
+Just like [React](https://github.com/facebook/react) the dispatcher requires a polyfill for ES5 methods such as Array.prototype.every IF you need to support older browsers. If you support modern browsers only, you are fine to go without any dependencies.
+
 ##Use
 
 ### Synchronous
@@ -33,7 +37,7 @@ ThreadStore.onThreadSelected = d.register(THREAD_SELECTED_ACTION, [], function(p
 
 MessageStore.onThreadSelected = d.register(THREAD_SELECTED_ACTION, [ThreadStore.onThreadSelected], function(payload, next) {
 	// Do something important here
-	
+
 	console.log(payload);
 	console.log('B');
 
