@@ -13,6 +13,22 @@ Just like [React](https://github.com/facebook/react) the dispatcher requires a p
 
 ##Use
 
+Stores can be registered like this
+
+```javascript
+dispatcher.register('action1', [], store1Function);
+```
+
+or like this
+
+```javascript
+dispatcher.register({
+	action: 'action1',
+	dependencies: [],
+	fn: store1Function
+});
+```
+
 ### Synchronous
 
 ```javascript

@@ -17,20 +17,32 @@ Dispatcher.prototype = {
 
 	/**
 	 * Registers listeners to actions with their dependencies
+	 * It's also possible to use the following notation to register a listener:
+	 * {
+	 * 	action: 'exampleaction',
+	 * 	dependencies: [dependency1, dependecy2],
+	 * 	fn: myCallbackFunction
+	 * }
 	 *
-	 * @param  {string} actionName
+	 * @param  {string} action
 	 * @param  {Array.<integer>} dependencies
 	 * @param  {Function} fn The listener function
 	 * @return {integer} Token to be used as dependency for other listeners
 	 */
-	register: function(actionName, dependencies, fn) {
-		if(!this._actions.hasOwnProperty(actionName)) {
-			this._actions[actionName] = [];
+	register: function(action, dependencies, fn) {
+		if(arguments.length === 1) {
+			action = arguments[0].action;
+			dependencies = arguments[0].dependencies;
+			fn = arguments[0].fn;
+		}
+
+		if(!this._actions.hasOwnProperty(action)) {
+			this._actions[action] = [];
  		}
 
  		var id = this._generateId();
 
-		this._actions[actionName].push(new Listener(id, dependencies, fn));
+		this._actions[action].push(new Listener(id, dependencies, fn));
 
     return id;
 	},
