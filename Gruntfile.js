@@ -45,6 +45,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
 
-  grunt.registerTask('default', ['esteWatch']);
+  grunt.registerTask('default', ['mochacli','esteWatch']);
 
 };
