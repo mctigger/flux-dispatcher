@@ -61,15 +61,21 @@ Dispatcher.prototype = {
 	 *
 	 * @param  {string} actionName
 	 * @param  {*} payload
-	 * @param  {function} onComplete
+	 * @param  {function=} onComplete
 	 */
 	dispatch: function(actionName, payload, onComplete) {
+		var callback = function() {
+			if(onComplete) {
+				onComplete();
+			}
+		};
+
 		if(!this._actions[actionName]) {
-			onComplete();
+			callback();
 			return;
 		}
 
-		new Cycle(this._actions[actionName], payload, onComplete);
+		new Cycle(this._actions[actionName], payload, callback);
 	}
 };
 

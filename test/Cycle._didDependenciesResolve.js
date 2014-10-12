@@ -8,31 +8,32 @@ var Cycle = require('src/Cycle');
 
 describe('Cycle.didDependenciesResolve', function() {
   var actions = [];
+  var fn = function() {};
 
   it('with no dependencies', function() {
-    var cycle = new Cycle(actions, {});
+    var cycle = new Cycle(actions, {}, fn);
     expect(cycle._didDependenciesResolve([])).to.be.equal(true);
   });
 
   it('with one dependency [false]', function() {
-    var cycle = new Cycle(actions, {});
+    var cycle = new Cycle(actions, {}, fn);
     expect(cycle._didDependenciesResolve(['store1'])).to.be.equal(false);
   });
 
   it('with multiple dependencies [false]', function() {
-    var cycle = new Cycle(actions, {});
+    var cycle = new Cycle(actions, {}, fn);
     expect(cycle._didDependenciesResolve(['store1', 'store2'])).to.be.equal(false);
   });
 
   it('with one dependency [true]', function() {
-    var cycle = new Cycle(actions, {});
+    var cycle = new Cycle(actions, {}, fn);
     cycle._resolved.push('store1');
 
     expect(cycle._didDependenciesResolve(['store1'])).to.be.equal(true);
   });
 
   it('with multiple dependencies [true]', function() {
-    var cycle = new Cycle(actions, {});
+    var cycle = new Cycle(actions, {}, fn);
     cycle._resolved.push('store1');
     cycle._resolved.push('store2');
 

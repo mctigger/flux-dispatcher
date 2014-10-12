@@ -56,9 +56,7 @@ Cycle.prototype = {
 
     // If all listeners are resolved, invoke callback
     if(this._resolved.length === this._totalListenerCount) {
-    	if(this._onComplete) {
-	    	this._onComplete();
-	    }
+    	this._onComplete();
 		}
   },
 

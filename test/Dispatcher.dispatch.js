@@ -40,4 +40,11 @@ describe('Dispatcher.dispatch', function() {
 		dispatcher.dispatch('action', {}, onComplete);
 	});
 
+	it('with no registered actions and no callback', function() {
+		var dispatcher = new Dispatcher();
+
+		// Missing onComplete here
+		dispatcher.dispatch('action', {});
+	});
+
 });

@@ -15,6 +15,8 @@ describe('Cycle.resolve', function() {
 		next();
 	};
 
+	var fn = function() {};
+
 	beforeEach(function() {
 		actions = {};
 	});
@@ -37,8 +39,8 @@ describe('Cycle.resolve', function() {
 			}
 		];
 
-		var cycle = new Cycle(actions, payload);
-		
+		var cycle = new Cycle(actions, payload, fn);
+
 
 		expect(spy1.callCount).to.equal(1);
 		expect(spy2.callCount).to.equal(1);
@@ -67,8 +69,8 @@ describe('Cycle.resolve', function() {
 			}
 		];
 
-		var cycle = new Cycle(actions, payload);
-		
+		var cycle = new Cycle(actions, payload, fn);
+
 
 		expect(spy1.callCount).to.equal(1);
 		expect(spy2.callCount).to.equal(1);
@@ -102,8 +104,8 @@ describe('Cycle.resolve', function() {
 			}
 		];
 
-		var cycle = new Cycle(actions, payload);
-		
+		var cycle = new Cycle(actions, payload, fn);
+
 
 		expect(spy1.callCount).to.equal(1);
 		expect(spy2.callCount).to.equal(1);
@@ -115,7 +117,7 @@ describe('Cycle.resolve', function() {
 	});
 
 	it('with multiple async dependencies', function() {
-		var spy1 = sinon.spy(next);		
+		var spy1 = sinon.spy(next);
 		var spy2 = sinon.spy(function(payload, next) {
 			setTimeout(next, 0);
 		});
@@ -151,7 +153,7 @@ describe('Cycle.resolve', function() {
 		};
 
 		var cycle = new Cycle(actions, payload, onComplete);
-	
+
 	});
 
 	it('with transitive async dependencies', function() {
@@ -192,8 +194,8 @@ describe('Cycle.resolve', function() {
 		};
 
 		var cycle = new Cycle(actions, payload, onComplete);
-		
+
 	});
 
-	
+
 });
