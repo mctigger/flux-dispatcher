@@ -1,3 +1,5 @@
+DO NOT USE THIS. Use https://github.com/gaearon/redux
+
 
 USE THIS DISPATCHER WITH CAUTION. I most probably did not know how FLUX should really work, when I created this, so please use a dispatcher of one of the more popular flux libraries.
 
